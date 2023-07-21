@@ -9,6 +9,11 @@ input {
 
 .table-grid {
   display: grid;
-  grid-template-columns: '25% 25% 25% 25%';
+  grid-template-columns: '25% 25%';
   grid-column-gap: 4rem;
+}
+
+body {
+  background-color: black;
+  color: white;
 }
