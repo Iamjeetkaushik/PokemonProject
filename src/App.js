@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import './App.css';
-import pokemon from './pokemon.json';
 
 const PokemonRow = ({ pokemon, onSelect }) => (
   <tr>
@@ -51,17 +49,24 @@ PokemonRow.prototype = {
 
 function App() {
   const [filter, filterSet] = React.useState('');
+  const [pokemon, pokemonSet] = React.useState([]);
   const [selectedIteam, selectedIteamSet] = React.useState(null);
 
+  React.useEffect(() => {
+    fetch('http://localhost:3000/starting-react/pokemon.json')
+      .then((resp) => resp.json())
+      .then((data) => pokemonSet(data));
+  }, []);
+
   return (
-    <div>
+    <div style={{ margin: 'auto', width: 800, paddingTop: '1rem' }}>
       <h1 className='title'>Pokemon Search</h1>
       <input
         value={filter}
         onChange={(evt) => filterSet(evt.target.value)}
       ></input>
       <div className='table-grid'>
-        <table width='100%'>
+        <table width='60%'>
           <thead>
             <tr>
               <th>Name</th>
@@ -83,10 +88,10 @@ function App() {
                   key={pokemon.id}
                 />
               ))}
+            {selectedIteam && <PokemonInfo {...selectedIteam} />}
           </tbody>
         </table>
       </div>
-      {selectedIteam && <PokemonInfo {...selectedIteam} />}
     </div>
   );
 }
